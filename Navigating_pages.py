@@ -9,12 +9,12 @@ import sys
 
 
 def choromedriver():
-    File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\panamacompra_gob_pa\\Location For Database & Driver.txt" , "r")
-    TXT_File_AllText = File_Location.read()
-    Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
-    browser = webdriver.Chrome(Chromedriver)
+    # File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\panamacompra_gob_pa\\Location For Database & Driver.txt" , "r")
+    # TXT_File_AllText = File_Location.read()
+    # Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
+    # browser = webdriver.Chrome(Chromedriver)
+    browser = webdriver.Chrome(executable_path=str(f"C:\\chromedriver.exe"))
     browser.get('http://www.panamacompra.gob.pa')
-    browser.set_window_size(1024 , 600)
     browser.maximize_window()
     time.sleep(4)
     clicking_process(browser)

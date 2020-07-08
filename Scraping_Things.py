@@ -244,6 +244,10 @@ def scraping_data(get_htmlSource , link, browser):
             a = 1
             if len(SegFeild[19]) >= 200:
                 SegFeild[19] = str(SegFeild[19])[:200] + '...'
+
+            if len(SegFeild[18]) >= 1500:
+                SegFeild[18] = str(SegFeild[18])[:1500]+'...'
+
             check_date(get_htmlSource, SegFeild)
 
         except Exception as e :
@@ -253,23 +257,25 @@ def scraping_data(get_htmlSource , link, browser):
             a = 0
 
 
-def check_date(get_htmlSource , SegFeild):
-    tender_date = str(SegFeild[24])
-    nowdate = datetime.now()
-    date2 = nowdate.strftime("%Y-%m-%d")
+def check_date(get_htmlSource , SegField):
+    deadline = str(SegField[24])
+    curdate = datetime.now()
+    curdate_str = curdate.strftime("%Y-%m-%d")
     try:
-        if tender_date != '':
-            deadline = time.strptime(tender_date , "%Y-%m-%d")
-            currentdate = time.strptime(date2 , "%Y-%m-%d")
-            if deadline > currentdate:
-                insert_in_Local(get_htmlSource , SegFeild)
+        if deadline != '':
+            datetime_object_deadline = datetime.strptime(deadline, '%Y-%m-%d')
+            datetime_object_curdate = datetime.strptime(curdate_str, '%Y-%m-%d')
+            timedelta_obj = datetime_object_deadline - datetime_object_curdate
+            day = timedelta_obj.days
+            if day > 0:
+                insert_in_Local(get_htmlSource, SegField)
             else:
-                print("Expired")
+                print("Expired Tender")
                 global_var.expired += 1
         else:
-            print("Deadline was not given")
+            print("Deadline Not Given")
             global_var.deadline_Not_given += 1
     except Exception as e:
-            exc_type , exc_obj , exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print("Error ON : ", sys._getframe().f_code.co_name + ": " + str(e) , "\n" , exc_type , "\n" ,fname , "\n" , exc_tb.tb_lineno)
+        exc_type , exc_obj , exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("Error ON : " , sys._getframe().f_code.co_name + "--> " + str(e) , "\n" , exc_type , "\n" , fname , "\n" ,exc_tb.tb_lineno)
