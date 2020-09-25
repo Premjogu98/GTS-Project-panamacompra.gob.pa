@@ -13,9 +13,12 @@ def choromedriver():
     # TXT_File_AllText = File_Location.read()
     # Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
     # browser = webdriver.Chrome(Chromedriver)
-    browser = webdriver.Chrome(executable_path=str(f"C:\\chromedriver.exe"))
-    browser.get('http://www.panamacompra.gob.pa')
+    browser = webdriver.Chrome(executable_path=str('F:\\chromedriver.exe'))
     browser.maximize_window()
+
+    # browser.get('http://www.panamacompra.gob.pa')
+    # time.sleep(4)
+    ctypes.windll.user32.MessageBoxW(0, "http://www.panamacompra.gob.pa   NAVIGATE THIS LINK ON CHROME", 'panamacompra.gob.pa', 0)
     time.sleep(4)
     clicking_process(browser)
 
@@ -101,7 +104,9 @@ def Collect_links(browser):
                 "//*[@class=\"table-responsive img-rounded\"]/table/tbody/tr/td[2]/a[@href]")
             # First page Collect href
             for i in range(len(link)):
-                link1.append(link[i].get_attribute('href'))
+                href = link[i].get_attribute('href')
+                print(href)
+                link1.append(href)
             for next in range(0, int(page), 1):
                 try:
                     for Page in browser.find_elements_by_css_selector("[ng-click='selectPage\(page \+ 1\, \$event\)']"):
