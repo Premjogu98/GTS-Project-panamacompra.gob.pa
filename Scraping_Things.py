@@ -51,6 +51,8 @@ def scraping_data(get_htmlSource , link, browser):
             SegFeild[1] = Email
             #  ===========================================================================================================================================================
             # Address
+            # Country
+            SegFeild[7] ="PA"
 
             Address = new_get_htmlSource.partition('>Dirección:')[2].partition('</tr>')[0].strip()
             Address = Address.partition('<td>')[2].partition('</td>')[0].strip()
@@ -61,9 +63,12 @@ def scraping_data(get_htmlSource , link, browser):
             Delivery_Province = new_get_htmlSource.partition('>Provincia de Entrega')[2].partition('</tr>')[0].strip()
             Delivery_Province = Delivery_Province.partition('<td>')[2].partition('</td>')[0].strip()
             if Delivery_Province != "":
-                # Delivery_Province = Translate(Delivery_Province)
                 Delivery_Province = string.capwords(str(Delivery_Province))
-
+                
+            if Delivery_Province.upper().strip() == 'PANAMA':
+                SegFeild[42] = SegFeild[7].strip()
+            else:
+                SegFeild[42] = ''  # project_location
             First_name = new_get_htmlSource.partition('>Nombre:')[2].partition('</tr>')[0].strip()
             First_name = First_name.partition('<td>')[2].partition('</td>')[0].strip()
             if First_name != "":
@@ -87,8 +92,7 @@ def scraping_data(get_htmlSource , link, browser):
             alladdress2 = str(Collected_Address)
             SegFeild[2] = alladdress2
             #  ===========================================================================================================================================================
-            # Country
-            SegFeild[7] ="PA"
+        
             #  ===========================================================================================================================================================
             # Customer name
             Purchaser = new_get_htmlSource.partition('>Entidad:')[2].partition('</tr>')[0].strip()
@@ -155,7 +159,12 @@ def scraping_data(get_htmlSource , link, browser):
                 Reception_Place = string.capwords(str(Reception_Place))
 
             Reference_Price = new_get_htmlSource.partition('>Precio Referencia:')[2].partition('</tr>')[0].strip()
-            Reference_Price = Reference_Price.partition('<td>')[2].partition('</td>')[0].strip().replace(' ','')
+            Reference_Price = Reference_Price.partition('<td>')[2].partition('</td>')[0].replace(' ','')
+            Reference_Price = Reference_Price.replace('B/.','').strip()
+            SegFeild[20] = Reference_Price.strip()
+
+            if str(SegFeild[20]) != "":
+                SegFeild[21] = 'PAB'
 
             Budget_Items = ''
             for Budget_Items in browser.find_elements_by_xpath("//*[@id=\"table_inter_np\"]/tbody"):
@@ -235,6 +244,8 @@ def scraping_data(get_htmlSource , link, browser):
 
             SegFeild[31] = 'panamacompra.gob.pa'
             #  ===========================================================================================================================================================
+ 
+            SegFeild[43] = '' # set_aside
 
             for SegIndex in range(len(SegFeild)):
                 print(SegIndex, end=' ')

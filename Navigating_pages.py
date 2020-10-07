@@ -13,7 +13,7 @@ def choromedriver():
     # TXT_File_AllText = File_Location.read()
     # Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
     # browser = webdriver.Chrome(Chromedriver)
-    browser = webdriver.Chrome(executable_path=str('F:\\chromedriver.exe'))
+    browser = webdriver.Chrome(executable_path=str('C:\\chromedriver.exe'))
     browser.maximize_window()
 
     # browser.get('http://www.panamacompra.gob.pa')
