@@ -38,7 +38,7 @@ def scraping_data(get_htmlSource , link, browser):
         try:
             # translator = Translator()
             SegFeild = []
-            for data in range(42):
+            for data in range(45):
                 SegFeild.append('')
             global_var.Total += 1
             new_get_htmlSource = get_htmlSource.replace("\n", "")
@@ -65,10 +65,8 @@ def scraping_data(get_htmlSource , link, browser):
             if Delivery_Province != "":
                 Delivery_Province = string.capwords(str(Delivery_Province))
                 
-            if Delivery_Province.upper().strip() == 'PANAMA':
-                SegFeild[42] = SegFeild[7].strip()
-            else:
-                SegFeild[42] = ''  # project_location
+           
+            
             First_name = new_get_htmlSource.partition('>Nombre:')[2].partition('</tr>')[0].strip()
             First_name = First_name.partition('<td>')[2].partition('</td>')[0].strip()
             if First_name != "":
@@ -160,7 +158,7 @@ def scraping_data(get_htmlSource , link, browser):
 
             Reference_Price = new_get_htmlSource.partition('>Precio Referencia:')[2].partition('</tr>')[0].strip()
             Reference_Price = Reference_Price.partition('<td>')[2].partition('</td>')[0].replace(' ','')
-            Reference_Price = Reference_Price.replace('B/.','').strip()
+            Reference_Price = Reference_Price.replace('B/.','').replace(',','').replace(' ','').strip()
             SegFeild[20] = Reference_Price.strip()
 
             if str(SegFeild[20]) != "":
@@ -246,6 +244,7 @@ def scraping_data(get_htmlSource , link, browser):
             #  ===========================================================================================================================================================
  
             SegFeild[43] = '' # set_aside
+            SegFeild[42] = 'PA'  # project_location
 
             for SegIndex in range(len(SegFeild)):
                 print(SegIndex, end=' ')
