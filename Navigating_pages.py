@@ -13,12 +13,12 @@ def choromedriver():
     # TXT_File_AllText = File_Location.read()
     # Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
     # browser = webdriver.Chrome(Chromedriver)
-    browser = webdriver.Chrome(executable_path=str('CS:\\chromedriver.exe'))
+    browser = webdriver.Chrome(executable_path=str('C:\\chromedriver.exe'))
     browser.maximize_window()
 
     # browser.get('http://www.panamacompra.gob.pa')
     # time.sleep(4)
-    ctypes.windll.user32.MessageBoxW(0, "http://www.panamacompra.gob.pa   NAVIGATE THIS LINK ON CHROME", 'panamacompra.gob.pa', 0)
+    ctypes.windll.user32.MessageBoxW(0, "https://www.panamacompra.gob.pa/Inicio/#!/busquedaAvanzada   NAVIGATE THIS LINK ON CHROME", 'panamacompra.gob.pa', 0)
     time.sleep(4)
     clicking_process(browser)
 
@@ -27,10 +27,6 @@ def clicking_process(browser):
     error = True
     while error == True:
         try:
-            for Advance_Search in browser.find_elements_by_xpath("//*[@id=\"navbar-collapse-1\"]/ul/li[5]/a"):
-                Advance_Search.click()
-                time.sleep(2)
-                break
             for select_state in browser.find_elements_by_xpath("//*[@id=\"bam.fields.estado\"]/option[2]"):
                 select_state.click()
                 time.sleep(2)
@@ -64,6 +60,7 @@ def clicking_process(browser):
                 break
             time.sleep(2)
             for Search in browser.find_elements_by_xpath("//*[@id=\"busquedaA2\"]/div[9]/div/center/button"):
+                browser.execute_script("arguments[0].scrollIntoView();", Search)
                 Search.click()
                 time.sleep(2)
                 break
@@ -76,6 +73,7 @@ def clicking_process(browser):
                 break
             if 'No hay registro' not in NO_Record:
                 for Tenders_Limit in browser.find_elements_by_xpath("//*[@id=\"bam.pagina.numPerPage\"]/option[3]"):
+                    browser.execute_script("arguments[0].scrollIntoView();", Tenders_Limit)
                     Tenders_Limit.click()
                     time.sleep(3)
                     Collect_links(browser)
