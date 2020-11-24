@@ -279,11 +279,13 @@ def check_date(get_htmlSource , SegField):
             day = timedelta_obj.days
             if day > 0:
                 insert_in_Local(get_htmlSource, SegField)
+                # print('Insert')
             else:
                 print("Expired Tender")
                 global_var.expired += 1
         else:
             print("Deadline Not Given")
+            insert_in_Local(get_htmlSource, SegField)
             global_var.deadline_Not_given += 1
     except Exception as e:
         exc_type , exc_obj , exc_tb = sys.exc_info()

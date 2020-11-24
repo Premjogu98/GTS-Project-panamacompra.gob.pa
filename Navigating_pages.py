@@ -16,10 +16,10 @@ def choromedriver():
     browser = webdriver.Chrome(executable_path=str('C:\\chromedriver.exe'))
     browser.maximize_window()
 
-    # browser.get('http://www.panamacompra.gob.pa')
-    # time.sleep(4)
-    ctypes.windll.user32.MessageBoxW(0, "https://www.panamacompra.gob.pa/Inicio/#!/busquedaAvanzada   NAVIGATE THIS LINK ON CHROME", 'panamacompra.gob.pa', 0)
+    browser.get('https://www.panamacompra.gob.pa/Inicio/#!/busquedaAvanzada')
     time.sleep(4)
+    # ctypes.windll.user32.MessageBoxW(0, "https://www.panamacompra.gob.pa/Inicio/#!/busquedaAvanzada   NAVIGATE THIS LINK ON CHROME", 'panamacompra.gob.pa', 0)
+    # time.sleep(4)
     clicking_process(browser)
 
 
@@ -124,6 +124,8 @@ def Collect_links(browser):
                             page_finish = False
                         else:
                             page_finish = True
+                # page_finish = True # if pagination is not there
+                
             for href in link1:
                 b = 0
                 while b == 0:
