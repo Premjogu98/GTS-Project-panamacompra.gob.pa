@@ -13,13 +13,13 @@ def choromedriver():
     # TXT_File_AllText = File_Location.read()
     # Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
     # browser = webdriver.Chrome(Chromedriver)
-    browser = webdriver.Chrome(executable_path=str('C:\\chromedriver.exe'))
+    browser = webdriver.Chrome(executable_path=str('C:\\Translation EXE\\chromedriver.exe'))
     browser.maximize_window()
-
-    browser.get('https://www.panamacompra.gob.pa/Inicio/#!/busquedaAvanzada')
-    time.sleep(4)
     # ctypes.windll.user32.MessageBoxW(0, "https://www.panamacompra.gob.pa/Inicio/#!/busquedaAvanzada   NAVIGATE THIS LINK ON CHROME", 'panamacompra.gob.pa', 0)
-    # time.sleep(4)
+    browser.get('https://www.panamacompra.gob.pa/Inicio/#!/busquedaAvanzada')
+    time.sleep(3)
+    # browser.refresh()
+    # time.sleep(5)
     clicking_process(browser)
 
 
@@ -59,14 +59,28 @@ def clicking_process(browser):
                 time.sleep(2)
                 break
             time.sleep(2)
-            for Search in browser.find_elements_by_xpath("//*[@id=\"busquedaA2\"]/div[9]/div/center/button"):
-                browser.execute_script("arguments[0].scrollIntoView();", Search)
-                Search.click()
-                time.sleep(2)
-                break
-            for dopdown in browser.find_elements_by_xpath('//*[@id="bam.pagina.numPerPage"]/option[3]'):
-                dopdown.click()
-                break
+            while True:
+                try:
+                    for Search in browser.find_elements_by_xpath("//*[@id=\"busquedaA2\"]/div[9]/div/center/button"):
+                        browser.execute_script("arguments[0].scrollIntoView();", Search)
+                        Search.click()
+                        time.sleep(2)
+                        break
+                    break
+                except:
+                    print('Error While clicking on Search Button')
+                    time.sleep(2)
+            time.sleep(10)
+            while True:
+                try:
+                    for dopdown in browser.find_elements_by_xpath('//*[@id="bam.pagina.numPerPage"]/option[3]'):
+                        browser.execute_script("arguments[0].scrollIntoView();", dopdown)
+                        dopdown.click()
+                        break
+                    break
+                except:
+                    print('Error while clicking on dropdown ')
+                    time.sleep(2)
             NO_Record = ""
             for NO_Record in browser.find_elements_by_xpath("//*[@class=\"table-responsive img-rounded\"]/table/tbody"):
                 NO_Record = NO_Record.get_attribute("innerText").strip()
@@ -106,24 +120,30 @@ def Collect_links(browser):
                     link1.append(tender_links.get_attribute('href'))
                     print(tender_links.get_attribute('href'))
                 time.sleep(2)
-                for next_page in browser.find_elements_by_xpath('//*[@id="body"]/div/div[2]/div/div/div[2]/div[2]/center/ul/li/a'):
-                    next_page_outerHTML = next_page.get_attribute('outerHTML').replace('\n','').strip()
-                    next_page_text = next_page.get_attribute('innerText').strip()
-                    if '›' in next_page_text:
-                        if 'disabled="disabled"' not in next_page_outerHTML:
-                            browser.execute_script("arguments[0].scrollIntoView();", next_page)
-                            while True:
-                                try:
-                                    next_page.click()
-                                    time.sleep(2)
-                                    break
-                                except:
-                                    print('Error On Pagingation Please check it')
-                                    ctypes.windll.user32.MessageBoxW(0, "Error On Pagingation Please check it", 'panamacompra.gob.pa', 0)
-                                    time.sleep(3)
-                            page_finish = False
-                        else:
-                            page_finish = True
+                
+                next_page = browser.find_elements_by_xpath('//*[@id="body"]/div/div[2]/div/div/div[2]/div[2]/center/ul/li/a')
+                if len(next_page) == 0:
+                    page_finish = True
+                else:
+                    for next_page in browser.find_elements_by_xpath('//*[@id="body"]/div/div[2]/div/div/div[2]/div[2]/center/ul/li/a'):
+                        next_page_outerHTML = next_page.get_attribute('outerHTML').replace('\n','').strip()
+                        next_page_text = next_page.get_attribute('innerText').strip()
+                        if '›' in next_page_text:
+                            if 'disabled="disabled"' not in next_page_outerHTML:
+                                browser.execute_script("arguments[0].scrollIntoView();", next_page)
+                                while True:
+                                    try:
+                                        next_page.click()
+                                        time.sleep(2)
+                                        break
+                                    except:
+                                        print('Error On Pagingation Please check it')
+                                        ctypes.windll.user32.MessageBoxW(0, "Error On Pagingation Please check it", 'panamacompra.gob.pa', 0)
+                                        time.sleep(3)
+                                page_finish = False
+                            else:
+                                page_finish = True
+                
                 # page_finish = True # if pagination is not there
                 
             for href in link1:
